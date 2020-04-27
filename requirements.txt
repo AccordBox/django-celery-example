@@ -1,4 +1,4 @@
-Django==2.2
+Django==2.2.10
 celery==4.3
 redis==3.2.1
 flower==0.9.4
