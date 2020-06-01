@@ -1,0 +1,12 @@
+Django==2.2
+celery==4.3
+redis==3.2.1
+flower==0.9.4
+ipython
+watchdog==0.10.2
+argh>=0.24.1
+PyYAML>=3.10
+django-celery-email==3.0.0
+django-celery-beat==2.0.0
+requests==2.23.0
+django-capture-on-commit-callbacks
