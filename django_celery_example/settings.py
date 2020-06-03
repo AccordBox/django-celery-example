@@ -125,9 +125,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+################################################################################
+# How to setup Celery with Django
+################################################################################
 
 CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
+
+################################################################################
+# How to run period tasks with Celery and Django
+################################################################################
 
 # CELERY_BEAT_SCHEDULE = {
 #     'task-clear-session': {
@@ -135,6 +142,35 @@ CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
 #         "schedule": 5.0,          # five seconds interval
 #     },
 # }
+
+################################################################################
+# How to make Celery work with multiple queues
+################################################################################
+
+# from kombu import Queue       # noqa
+#
+# CELERY_TASK_DEFAULT_QUEUE = 'default'
+#
+# # Force all queues to be explicitly listed in `CELERY_TASK_QUEUES` to help prevent typos
+# CELERY_TASK_CREATE_MISSING_QUEUES = False
+#
+# CELERY_TASK_QUEUES = (
+#     # need to define default queue here or exception would be raised
+#     Queue('default'),
+#
+#     Queue('high_priority'),
+#     Queue('low_priority'),
+# )
+#
+# CELERY_TASK_ROUTES = {
+#     'django_celery_example.celery.*': {
+#         'queue': 'high_priority',
+#     },
+# }
+
+################################################################################
+# How to send email in Django project with Celery
+################################################################################
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_PORT = 1025

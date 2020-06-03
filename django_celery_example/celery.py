@@ -27,7 +27,8 @@ def logger_setup_handler(logger, **kwargs):
     """
     This show you how to customize your Celery log
     """
-    print(logging.Logger.manager.loggerDict)
+    # print(logging.Logger.manager.loggerDict)
+    pass
 
 
 @app.task
