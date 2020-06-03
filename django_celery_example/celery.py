@@ -33,6 +33,9 @@ def logger_setup_handler(logger, **kwargs):
 
 @app.task
 def add(x, y):
+    # from celery.contrib import rdb
+    # rdb.set_trace()
+
     # this is for test purpose
     time.sleep(10)
     return x / y
