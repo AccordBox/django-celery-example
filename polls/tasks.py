@@ -16,24 +16,14 @@ def task_test_logger():
     logger.info('test')
 
 
-@shared_task(bind=True, max_retries=5)
+@shared_task(bind=True, autoretry_for=(Exception,), retry_kwargs={'max_retries': 5, 'countdown': 5})
 def task_process_notification(self):
-    try:
-        if random.choice([0, 1]):
-            # mimic random error
-            raise Exception()
+    if random.choice([0, 1]):
+        # mimic random error
+        raise Exception()
 
-        # this would block the I/O
-        requests.post('https://httpbin.org/delay/5')
-    except Exception as e:
-        # raise self.retry(exc=e, countdown=5)
-
-        # Implement exponential backoff with some randomness to prevent
-        # thundering herd problems.
-        # https://en.wikipedia.org/wiki/Thundering_herd_problem
-        timeout = 5 * int(random.uniform(1.9, 2.1) ** self.request.retries)
-        logger.error('exception raised, it would be retry after %s' % timeout)
-        raise self.retry(exc=e, countdown=timeout)
+    # this would block the I/O
+    requests.post('https://httpbin.org/delay/5')
 
 
 @shared_task()
