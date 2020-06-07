@@ -12,7 +12,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseServerError, JsonResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from polls.tasks import task_process_notification, task_subscribe, task_send_welcome_email, \
-    task_transaction_test, task_add_subscribe
+    task_transaction_test, task_add_subscribe, task_sync_user
 from polls.forms import SubscribeForm
 
 import requests
@@ -138,6 +138,7 @@ def transaction_celery2(request):
     logger.info('create user {instance.pk}'.format(instance=user))
     # we register callback functions and they would be call after transaction commit
     transaction.on_commit(lambda: task_send_welcome_email.delay(user.pk))
+    transaction.on_commit(lambda: task_sync_user.delay(user.pk))
 
     time.sleep(1)
     return HttpResponse('test')

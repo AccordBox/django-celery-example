@@ -44,6 +44,12 @@ def task_send_welcome_email(user_pk):
 
 
 @shared_task()
+def task_sync_user(user_pk):
+    instance = User.objects.get(pk=user_pk)
+    logger.info('sync user {instance.email} {instance.pk}'.format(instance=instance))
+
+
+@shared_task()
 def task_transaction_test():
     with transaction.atomic():
         from .views import random_username
