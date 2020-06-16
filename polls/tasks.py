@@ -7,6 +7,8 @@ from celery import shared_task
 from django.db import transaction
 from django.core.management import call_command
 
+from .base_task import custom_celery_task
+
 from celery.utils.log import get_task_logger  # noqa
 logger = get_task_logger(__name__)
 
@@ -49,16 +51,20 @@ def task_sync_user(user_pk):
     logger.info('sync user {instance.email} {instance.pk}'.format(instance=instance))
 
 
-@shared_task()
+@custom_celery_task(max_retries=5)
 def task_transaction_test():
-    with transaction.atomic():
-        from .views import random_username
+    """
+    Here we use custom decorator to make sure Celery task code run in db transaction
 
-        username = random_username()
-        user = User.objects.create_user(username, 'lennon@thebeatles.com', 'johnpassword')
-        user.save()
-        logger.info('send email to {instance.pk}'.format(instance=user))
-        raise Exception('test')
+    If exception raised, the user would not be created because of rollback
+    """
+    from .views import random_username
+
+    username = random_username()
+    user = User.objects.create_user(username, 'lennon@thebeatles.com', 'johnpassword')
+    user.save()
+    logger.info('send email to {instance.pk}'.format(instance=user))
+    raise Exception('test')
 
 
 @shared_task(name='task_clear_session')
