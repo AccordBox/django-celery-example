@@ -10,3 +10,4 @@ django-celery-email==3.0.0
 django-celery-beat==2.0.0
 requests==2.23.0
 django-capture-on-commit-callbacks
+factory-boy==2.12.0

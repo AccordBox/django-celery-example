@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase, TransactionTestCase, override_settings
 from unittest.mock import patch
 from polls.tasks import task_add_subscribe
+from polls.factories import UserFactory
 
 
 class SubscribeTestCase(TransactionTestCase):
@@ -66,7 +67,7 @@ class TaskAddSubscribeTest(TestCase):
 
     @patch('polls.tasks.requests.post')
     def test_post_succeed(self, requests_post):
-        instance = User.objects.create(username='test', email='test@email.com')
+        instance = UserFactory.create()
         task_add_subscribe(instance.pk)
 
         requests_post.assert_called_with(
@@ -77,7 +78,7 @@ class TaskAddSubscribeTest(TestCase):
     @patch('polls.tasks.task_add_subscribe.retry')
     @patch('polls.views.requests.post')
     def test_exception(self, requests_post, task_add_subscribe_retry):
-        instance = User.objects.create(username='test', email='test@email.com')
+        instance = UserFactory.create()
         from celery.exceptions import Retry
 
         task_add_subscribe_retry.side_effect = Retry()
