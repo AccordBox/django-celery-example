@@ -9,8 +9,10 @@ services:
       - mediafiles:/app/mediafiles
     ports:
       - 80:80
+      - 5555:5555
     depends_on:
       - web
+      - flower
 
   web:
     build:
@@ -76,8 +78,6 @@ services:
       - .:/app
     env_file:
       - ./.env/.prod-sample
-    ports:
-      - 5555:5555
     depends_on:
       - redis
       - db
