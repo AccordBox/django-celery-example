@@ -53,13 +53,14 @@ RUN sed -i 's/\r$//g' /start-flower
 RUN chmod +x /start-flower
 #COPY --from=client-builder --chown=django:django /app /app
 
-
+RUN mkdir /app
+RUN mkdir /app/staticfiles
+RUN mkdir /app/mediafiles
 WORKDIR /app
 
 # copy project code
 COPY . .
 
-# fix the permission of staticfiles and mediafiles
 RUN chown -R django:django /app
 
 USER django

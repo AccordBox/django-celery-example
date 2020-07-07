@@ -8,7 +8,6 @@ SQL_USER=hello_django
 SQL_PASSWORD=hello_django
 SQL_HOST=db
 SQL_PORT=5432
-DATABASE=postgres
 
 CELERY_BROKER=redis://redis:6379/0
 CELERY_BACKEND=redis://redis:6379/0
