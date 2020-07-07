@@ -1,0 +1,82 @@
+version: '3.7'
+
+services:
+
+  nginx:
+    build: ./compose/production/nginx
+    volumes:
+      - staticfiles:/app/staticfiles
+      - mediafiles:/app/mediafiles
+    ports:
+      - 80:80
+    depends_on:
+      - web
+
+  web:
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    command: /start
+    volumes:
+      - staticfiles:/app/staticfiles
+      - mediafiles:/app/mediafiles
+    env_file:
+      - ./.env/.prod-sample
+    depends_on:
+      - redis
+      - db
+
+  db:
+    image: postgres:12.0-alpine
+
+  redis:
+    image: redis:5-alpine
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    image: django_celery_example_celery_worker
+    command: /start-celeryworker
+    volumes:
+      - .:/app
+    env_file:
+      - ./.env/.prod-sample
+    depends_on:
+      - redis
+      - db
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    image: django_celery_example_celery_beat
+    command: /start-celerybeat
+    volumes:
+      - .:/app
+    env_file:
+      - ./.env/.prod-sample
+    depends_on:
+      - redis
+      - db
+
+  flower:
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    image: django_celery_example_celey_flower
+    command: /start-flower
+    volumes:
+      - .:/app
+    env_file:
+      - ./.env/.prod-sample
+    ports:
+      - 5555:5555
+    depends_on:
+      - redis
+      - db
+
+volumes:
+  postgres_data:
+  staticfiles:
+  mediafiles:
