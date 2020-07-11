@@ -6,11 +6,15 @@ services:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
     image: django_celery_example_web
+    # this is shell script run the service
     command: /start
+    # so if we change code on host, code in docker container would also be changed
     volumes:
       - .:/app
+    # this is the Django dev server default number
     ports:
       - 8000:8000
+    # we use this file to manage env variables of our project
     env_file:
       - ./.env/.dev-sample
     depends_on:
