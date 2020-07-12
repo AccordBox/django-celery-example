@@ -9,7 +9,10 @@ SQL_PASSWORD=hello_django
 SQL_HOST=db
 SQL_PORT=5432
 
-CELERY_BROKER=redis://redis:6379/0
+RABBITMQ_DEFAULT_USER=admin
+RABBITMQ_DEFAULT_PASS=admin
+
+CELERY_BROKER=amqp://admin:admin@rabbitmq:5672/
 CELERY_BACKEND=redis://redis:6379/0
 
 CELERY_FLOWER_USER=admin

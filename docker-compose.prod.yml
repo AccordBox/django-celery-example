@@ -10,6 +10,7 @@ services:
     ports:
       - 80:80
       - 5555:5555
+      - 15672:15672
     depends_on:
       - web
       - flower
@@ -40,6 +41,11 @@ services:
   redis:
     image: redis:5-alpine
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    env_file:
+      - ./.env/.prod-sample
+
   celery_worker:
     build:
       context: .
@@ -47,7 +53,8 @@ services:
     image: django_celery_example_celery_worker
     command: /start-celeryworker
     volumes:
-      - .:/app
+      - staticfiles:/app/staticfiles
+      - mediafiles:/app/mediafiles
     env_file:
       - ./.env/.prod-sample
     depends_on:
@@ -61,7 +68,8 @@ services:
     image: django_celery_example_celery_beat
     command: /start-celerybeat
     volumes:
-      - .:/app
+      - staticfiles:/app/staticfiles
+      - mediafiles:/app/mediafiles
     env_file:
       - ./.env/.prod-sample
     depends_on:
@@ -75,7 +83,8 @@ services:
     image: django_celery_example_celey_flower
     command: /start-flower
     volumes:
-      - .:/app
+      - staticfiles:/app/staticfiles
+      - mediafiles:/app/mediafiles
     env_file:
       - ./.env/.prod-sample
     depends_on:

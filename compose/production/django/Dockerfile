@@ -13,7 +13,7 @@ ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update \
   # dependencies for building Python packages
-  && apt-get install -y build-essential \
+  && apt-get install -y build-essential netcat \
   # psycopg2 dependencies
   && apt-get install -y libpq-dev \
   # Translations dependencies

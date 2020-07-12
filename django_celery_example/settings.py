@@ -139,7 +139,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 ################################################################################
 
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://127.0.0.1:6379/0")
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://127.0.0.1:6379/0")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://127.0.0.1:6379/0")
 
 ################################################################################
 # How to run period tasks with Celery and Django
