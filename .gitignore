@@ -117,6 +117,8 @@ dmypy.json
 .pyre/
 
 # End of https://www.gitignore.io/api/django
-
+.DS_Store
+celerybeat.pid
 db.sqlite3
 /.idea
+/staticfiles/
