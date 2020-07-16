@@ -13,7 +13,10 @@ until worker_ready; do
 done
 >&2 echo 'Celery workers is available'
 
-celery flower \
+exec celery flower \
     --app=django_celery_example \
     --broker="${CELERY_BROKER}" \
     --basic_auth="${CELERY_FLOWER_USER}:${CELERY_FLOWER_PASSWORD}"
+
+# If you want to make flower keeps the task info after restart, pass options like this --persistent=1 --db=flower.db
+# You should also create docker volume to keep db file
