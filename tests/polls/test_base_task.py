@@ -77,7 +77,7 @@ def throwing_retry_task():
 
 
 @pytest.mark.django_db()
-def test_throwing_no_retry_task(settings):
+def test_throwing_retry_task(settings):
     """
     If the exception is in EXCEPTION_BLOCK_LIST, should not retry the task
     """

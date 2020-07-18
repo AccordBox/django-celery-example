@@ -51,7 +51,7 @@ def task_sync_user(user_pk):
     logger.info('sync user {instance.email} {instance.pk}'.format(instance=instance))
 
 
-@custom_celery_task(max_retries=5, retry_backoff=True, retry_jitter=True)
+@custom_celery_task(max_retries=5)
 def task_transaction_test():
     """
     Here we use custom decorator to make sure Celery task code run in db transaction

@@ -18,8 +18,8 @@ class custom_celery_task:
     )
 
     def __init__(self, *args, **kwargs):
-            self.task_args = args
-            self.task_kwargs = kwargs
+        self.task_args = args
+        self.task_kwargs = kwargs
 
     def __call__(self, func):
         @functools.wraps(func)
@@ -41,7 +41,7 @@ class custom_celery_task:
 
     def _get_retry_countdown(self, task_func):
         retry_backoff = int(
-            self.task_kwargs.get('retry_backoff', False)
+            self.task_kwargs.get('retry_backoff', True)
         )
         retry_backoff_max = int(
             self.task_kwargs.get('retry_backoff_max', 600)
