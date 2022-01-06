@@ -1,5 +1,5 @@
 Django==3.0
-celery==4.4
+celery==5.2.2
 redis==3.2.1
 flower==0.9.5
 ipython
