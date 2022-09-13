@@ -1,7 +1,7 @@
 Django==3.0
 celery==4.4
 redis==3.2.1
-flower==0.9.5
+flower==1.2.0
 ipython
 watchdog==0.10.2
 argh>=0.24.1
